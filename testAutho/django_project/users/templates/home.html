@@ -9,5 +9,6 @@
 {% else %}
   <p>Вы вышли из системы</p>
   <a href="{% url 'login' %}">Log In</a>
+  <p><a href="{% url 'loginWithVideo' %}">Log In With Video</a></p>
 {% endif %}
 {% endblock %}

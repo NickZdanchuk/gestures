@@ -1,11 +1,16 @@
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django import forms
+
 
 # Create your views here.
 from django.urls import reverse_lazy
 
-from users.forms import LoginUserForm
+from users.forms import *
+from users.backend import *
+
 
 
 class LoginUser(LoginView):
@@ -16,6 +21,19 @@ class LoginUser(LoginView):
         return reverse_lazy('home')
 
 
+
+
+class LoginUserWithVideo(LoginView):
+    form_class = LoginUserWithVideoForm
+    template_name = 'users/login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
+
+
