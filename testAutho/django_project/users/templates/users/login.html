@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'users/base.html' %}
 
 {% block title %}Login{% endblock %}
 
@@ -15,7 +15,11 @@
 <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
   <button type="submit">Войти</button>
+
 </form>
+
+
+
 
 <!--
 <form method="post">

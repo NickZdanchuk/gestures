@@ -25,7 +25,7 @@ class LoginUser(LoginView):
 
 class LoginUserWithVideo(LoginView):
     form_class = LoginUserWithVideoForm
-    template_name = 'users/login.html'
+    template_name = 'users/loginWithVideo.html'
 
     def get_success_url(self):
         return reverse_lazy('home')
