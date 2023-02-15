@@ -28,15 +28,15 @@ class LoginUserForm(AuthenticationForm):
 
 class LoginUserWithVideoForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
-    password=None
-    video = forms.FileField(label='Видео', required=False, widget=forms.FileInput(attrs={'class': 'form-input'}))
+    password = None
+    video = forms.FileField(label='Видео', required=True, widget=forms.FileInput(attrs={'class': 'form-input'}))
 
     def clean(self):
         username = self.cleaned_data.get("username")
 
         if username is not None:
             self.user_cache = authenticate(
-                self.request, username=username
+                self.request, username=username, video=self.request.FILES['video']
             )
             if self.user_cache is None:
                 raise self.get_invalid_login_error()

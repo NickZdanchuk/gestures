@@ -25,59 +25,17 @@ from users import models
 
 
 class MultiPasswordModelBackend(ModelBackend):
-    def authenticate(self, request, username=None, password=None, video=None, videoEmbedding=None):
+    def authenticate(self, request, username=None, password=None, video=None):
         try:
             user = CustomUser.objects.get(username=username)
-            if password == None:
-                item_video_Embedding = CustomUser.objects.filter(username=username).first().videoEmbedding
+            if password is None and video is not None:
+                embedding_video_from_site = self.getEmbeddingFromVideo(video)
+                embedding_original_video = self.getEmbeddingFromDataBase(username)
 
-                list_bytes = base64.b64decode(item_video_Embedding)
-
-                list = pickle.loads(list_bytes)
-                print(list)
-
-                newVideo = request.POST.get('newVideo')
-                print(newVideo)
-                newVideo1 = request.POST.get('video1')
-                print(newVideo1)
-
-                video = request.POST.get('video')
-                print(video)
-
-                for key, value in request.POST.items():
-                    print('Key: %s' % (key))
-                    print('Value %s' % (value))
-
-                SuperVideo = request.POST.get('SuperVideo')
-                print(type(SuperVideo))
-                '''
-                
-                
+                if(embedding_original_video==embedding_video_from_site):
+                    return user
                 #item_video = CustomUser.objects.filter(username=username).first().video
 
-                
-                BASE_DIR = Path(__file__).resolve().parent.parent
-                #path = os.path.join(BASE_DIR, 'media',item_video.name)
-
-                
-                url = "http://127.0.0.1:5000"
-
-                payload = {'name': 'branch'}
-                files = [
-                    ('content', (
-                    'tmp.mp4',
-                    # open(path, 'rb'),
-                    video.open(mode='rb'),
-                    'application/octet-stream'))
-                ]
-                headers = {}
-
-                response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-                #print(len(json.loads(response.text)['embedding']))
-                '''
-
-                return user
             elif user.check_password(password) and self.user_can_authenticate(user):
                 return user
 
@@ -86,7 +44,31 @@ class MultiPasswordModelBackend(ModelBackend):
 
 
 
+    def getEmbeddingFromDataBase(self, username):
+        item_video_Embedding = CustomUser.objects.filter(username=username).first().videoEmbedding
+        list_bytes = base64.b64decode(item_video_Embedding)
+        list = pickle.loads(list_bytes)
+        return list
 
+
+    def getEmbeddingFromVideo(self, video):
+        BASE_DIR = Path(__file__).resolve().parent.parent
+        path = os.path.join(BASE_DIR, 'media', video.name)
+
+        url = "http://127.0.0.1:5000"
+
+        payload = {'name': 'branch'}
+        files = [
+            ('content', (
+                'tmp.mp4',
+                # open(path, 'rb'),
+                video.open(mode='rb'),
+                'application/octet-stream'))
+        ]
+        headers = {}
+
+        response = requests.request("POST", url, headers=headers, data=payload, files=files)
+        return json.loads(response.text)['embedding']
 
 
 
