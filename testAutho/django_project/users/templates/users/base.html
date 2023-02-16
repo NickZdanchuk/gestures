@@ -1,19 +1,22 @@
 {% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>{% block title %}   base   {% endblock %}</title>
-  {%block style %} {% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}   base   {% endblock %}</title>
+    {% block style %} {% endblock %}
 </head>
-<body>
-  <script>
+<body class="text-center">
+{% bootstrap_messages %}
+<script>
     var CSRF_TOKEN = '{{ csrf_token }}';
-  </script>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+</script>
+{% block content %}
+{% endblock %}
 </body>
 </html>
