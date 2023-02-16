@@ -5,8 +5,10 @@
 {% block content %}
     <main class="w-100 m-auto">
         {% if user.is_authenticated %}
-            Привет {{ user.username }}!
-            <p><a href="{% url 'logout' %}">Log Out</a></p>
+            <h3 class="fw-bold" style="margin-bottom: 15px;">Привет {{ user.username }}!</h3>
+             <a class="btn btn-primary btn-lg" style="width: 300px;"
+                   href="{% url 'logout' %}">Log Out</a>
+
         {% else %}
             <h3 class="fw-bold" style="margin-bottom: 15px;">Вы вышли из системы</h3>
             <div>

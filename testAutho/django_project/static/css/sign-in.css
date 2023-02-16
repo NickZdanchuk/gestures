@@ -3,6 +3,11 @@
   padding: 15px;
 }
 
+.form-camera {
+  max-width: 330px;
+  padding: 15px;
+}
+
 .form-signin .form-floating:focus-within {
   z-index: 2;
 }
@@ -18,3 +23,15 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.form-signin input[type="file"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+}
+
+#start-record, #stop-record, #download-video {
+    display: none;
+}
+

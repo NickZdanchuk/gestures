@@ -3,37 +3,46 @@
 
 {% block title %}Login{% endblock %}
 {%block style %}
-<link type="text/css" href="{% static 'css/styles.css' %}" rel="stylesheet" />
+<link type="text/css" href="{% static 'css/sign-in.css' %}" rel="stylesheet" />
 {% endblock %}
 
 
 
 {% block content %}
-
-<h2>Авторизация</h2>
-
-
-<form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="form-error">{{ form.non_field_errors }}</div>
-
-    {% for f in form %}
-    <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
-    <div class="form-error">{{ f.errors }}</div>
-    {% endfor %}
-      <button type="submit">Войти</button>
-
-</form>
-
-<p>
-    <button id="start-camera">Камера</button>
-    <video id="video" width="400" height="300" autoplay></video>
-    <button id="start-record">Start Recording</button>
-    <button id="stop-record">Stop Recording</button>
-    <a id="download-video" download="test.webm">Download Video</a>
+    <main class="form-signin w-100 m-auto">
+        <h1 class="h3 mb-3 fw-normal">Вечер в хату</h1>
 
 
-</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+                <div class="form-floating">
+                    {{ f }}
+                    <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                    <div class="form-error">{{ f.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Войти</button>
+            <p class="mt-5 mb-3 text-muted">&copy; ВАЛОЕБЫ AZATI</p>
+        </form>
+    </main>
+
+
+
+<main class="form-signin w-100 m-auto">
+
+    <h1 class="h3 mb-3 fw-normal">Записать видео</h1>
+    <button id="start-camera" class="w-50 btn btn-lg btn-primary">Камера</button>
+    <video id="video" width="300" height="250" autoplay></video>
+    <button id="start-record" class="w-100 btn btn-lg btn-primary">Начать запись</button>
+    <button id="stop-record" class="w-100 btn btn-lg btn-primary">Закончить запись </button>
+    <a id="download-video" download="test.webm">Скачать запись</a>
+ </main>
+
+
+
 
 <script src="{% static 'js/client.js' %}"></script>
 

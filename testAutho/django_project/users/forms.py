@@ -29,10 +29,13 @@ class LoginUserForm(AuthenticationForm):
 class LoginUserWithVideoForm(AuthenticationForm):
     username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Login'}))
     password = None
-    video = forms.FileField(label='Видео', required=True, widget=forms.FileInput(attrs={'class': 'form-control'}))
+    video = forms.FileField(label='Видео', required=True, widget=forms.FileInput(attrs={'class': 'form-control', 'placeholder': 'Video'}))
 
     def clean(self):
         username = self.cleaned_data.get("username")
+
+        for k, v in self.request.FILES.items():
+            print(k, v)
 
         if username is not None:
             self.user_cache = authenticate(
