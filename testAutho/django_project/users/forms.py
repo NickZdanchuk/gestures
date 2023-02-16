@@ -27,9 +27,9 @@ class LoginUserForm(AuthenticationForm):
 
 
 class LoginUserWithVideoForm(AuthenticationForm):
-    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Login'}))
     password = None
-    video = forms.FileField(label='Видео', required=True, widget=forms.FileInput(attrs={'class': 'form-input'}))
+    video = forms.FileField(label='Видео', required=True, widget=forms.FileInput(attrs={'class': 'form-control'}))
 
     def clean(self):
         username = self.cleaned_data.get("username")
