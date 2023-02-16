@@ -8,13 +8,12 @@ let camera_stream = null;
 let media_recorder = null;
 let blobs_recorded = [];
 
-camera_button.addEventListener('click', async function() {
-   	try {
-    	camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-    }
-    catch(error) {
-    	alert(error.message);
-    	return;
+camera_button.addEventListener('click', async function () {
+    try {
+        camera_stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+    } catch (error) {
+        alert(error.message);
+        return;
     }
 
     video.srcObject = camera_stream;
@@ -23,21 +22,20 @@ camera_button.addEventListener('click', async function() {
     start_button.style.display = 'block';
 });
 
-start_button.addEventListener('click', function() {
-    media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
+start_button.addEventListener('click', function () {
+    media_recorder = new MediaRecorder(camera_stream, {mimeType: 'video/webm'});
 
-    media_recorder.addEventListener('dataavailable', function(e) {
-    	blobs_recorded.push(e.data);
+    media_recorder.addEventListener('dataavailable', function (e) {
+        blobs_recorded.push(e.data);
     });
 
-    media_recorder.addEventListener('stop', function() {
-    	let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
-    	download_link.href = video_local;
+    media_recorder.addEventListener('stop', function () {
+        let video_local = URL.createObjectURL(new Blob(blobs_recorded, {type: 'video/webm'}));
+        download_link.href = video_local;
 
-    	let recording = new File(blobs_recorded, 'recording.webm', { type: 'video/webm' });
+        let recording = new File(blobs_recorded, 'recording.webm', {type: 'video/webm'});
         document.getElementById("newVideo5").innerHTML = recording;
         document.getElementById("video1").innerHTML = recording;
-
 
 
         stop_button.style.display = 'none';
@@ -50,14 +48,15 @@ start_button.addEventListener('click', function() {
     stop_button.style.display = 'block';
 });
 
-stop_button.addEventListener('click', function() {
-	media_recorder.stop();
+stop_button.addEventListener('click', function () {
+    media_recorder.stop();
 
 
-fetch("/post/data/here", {
-  method: "POST",
-  headers: {'Content-Type': 'application/json'},
-  body: JSON.stringify(recording)
-}).then(res => {
-  console.log("Request complete! response:", res);
+    fetch("/post/data/here", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(recording)
+    }).then(res => {
+        console.log("Request complete! response:", res);
+    });
 });
